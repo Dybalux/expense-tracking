@@ -11,6 +11,13 @@ export default function ExpenseForm({ categories, onSubmit, onCancel }) {
     const handleSubmit = (e) => {
         e.preventDefault()
         if (!form.description || !form.amount || !form.category_id) return
+
+        // Validar que el monto sea positivo
+        if (parseFloat(form.amount) <= 0) {
+            alert('El monto debe ser mayor a 0')
+            return
+        }
+
         onSubmit(form)
         setForm({
             description: '',
@@ -18,6 +25,14 @@ export default function ExpenseForm({ categories, onSubmit, onCancel }) {
             category_id: '',
             date: new Date().toISOString().split('T')[0],
         })
+    }
+
+    const handleAmountChange = (e) => {
+        const value = e.target.value
+        // Permitir solo números positivos
+        if (value === '' || parseFloat(value) >= 0) {
+            setForm({ ...form, amount: value })
+        }
     }
 
     return (
@@ -34,21 +49,22 @@ export default function ExpenseForm({ categories, onSubmit, onCancel }) {
                 <input
                     type="number"
                     step="0.01"
+                    min="0.01"
                     placeholder="Monto"
                     value={form.amount}
-                    onChange={(e) => setForm({ ...form, amount: e.target.value })}
+                    onChange={handleAmountChange}
                     className="bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
                     required
                 />
                 <select
                     value={form.category_id}
                     onChange={(e) => setForm({ ...form, category_id: e.target.value })}
-                    className="bg-purple-500 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="bg-purple-200 border border-white/20 rounded-lg px-4 py-2 text-gray-900 font-medium focus:outline-none focus:ring-2 focus:ring-purple-500"
                     required
                 >
-                    <option value="">Seleccionar categoría</option>
+                    <option value="" className="bg-purple-100 text-gray-900">Seleccionar categoría</option>
                     {categories.map((cat) => (
-                        <option key={cat.id} value={cat.id}>
+                        <option key={cat.id} value={cat.id} className="bg-purple-100 text-gray-900">
                             {cat.name}
                         </option>
                     ))}

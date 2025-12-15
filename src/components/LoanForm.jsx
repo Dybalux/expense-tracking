@@ -11,6 +11,13 @@ export default function LoanForm({ onSubmit, onCancel }) {
     const handleSubmit = (e) => {
         e.preventDefault()
         if (!form.person_name || !form.amount) return
+
+        // Validar que el monto sea positivo
+        if (parseFloat(form.amount) <= 0) {
+            alert('El monto debe ser mayor a 0')
+            return
+        }
+
         onSubmit(form)
         setForm({
             person_name: '',
@@ -18,6 +25,14 @@ export default function LoanForm({ onSubmit, onCancel }) {
             date: new Date().toISOString().split('T')[0],
             notes: '',
         })
+    }
+
+    const handleAmountChange = (e) => {
+        const value = e.target.value
+        // Permitir solo números positivos
+        if (value === '' || parseFloat(value) >= 0) {
+            setForm({ ...form, amount: value })
+        }
     }
 
     return (
@@ -34,9 +49,10 @@ export default function LoanForm({ onSubmit, onCancel }) {
                 <input
                     type="number"
                     step="0.01"
+                    min="0.01"
                     placeholder="Monto"
                     value={form.amount}
-                    onChange={(e) => setForm({ ...form, amount: e.target.value })}
+                    onChange={handleAmountChange}
                     className="bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-orange-500"
                     required
                 />
