@@ -1,7 +1,7 @@
 # 💰 Expense Tracker - Seguimiento de Gastos
 
 Aplicación web profesional para gestionar gastos personales y préstamos, construida con React, Bun y Supabase.
-- Link para live [demo](https://expense-tracking-6ezbw391b-dybaluxs-projects.vercel.app/)S
+- Link para live [demo](https://expense-tracking-6ezbw391b-dybaluxs-projects.vercel.app/)
 
 ## 🚀 Tecnologías
 
